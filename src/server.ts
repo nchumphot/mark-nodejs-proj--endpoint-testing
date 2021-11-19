@@ -81,4 +81,34 @@ app.get("/quest/start/impossible", (req, res) => {
   });
 });
 
+app.get("/quest/start/easy", (req, res) => {
+  res.json({
+    location: "The Farm",
+    speech: {
+      speaker: {
+        name: "Tiger 32",
+      },
+      text: "It will not be easy to get this tiger out of your way.",
+    },
+    options: {
+      restart: "/",
+    },
+  });
+});
+
+app.get("/quest/start/hard", (req, res) => {
+  res.json({
+    location: "The Volcano",
+    speech: {
+      speaker: {
+        name: "Giant Mammoth 44",
+      },
+      text: "Hard mode? Are you sure you can defeat this Giant Mammoth?",
+    },
+    options: {
+      restart: "/",
+    },
+  });
+});
+
 export default app;
