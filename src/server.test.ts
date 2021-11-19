@@ -88,3 +88,37 @@ test("GET /help responds with a location, a speech and option to restart", async
   // there is an option to restart
   expect(response.body.options).toMatchObject({ backToStart: "/" });
 });
+
+test("GET /quest/start/easy responds with an easy quest", async () => {
+  const response = await supertest(app).get("/quest/start/easy");
+
+  // there is _some_ location
+  expect(response.body.location).toBeDefined();
+
+  // there is _some_ speaker
+  expect(response.body.speech.speaker.name).toBeDefined();
+
+  // easy quest
+  expect(response.body.speech.text).toMatch(/easy/i);
+  expect(response.body.speech.text).toMatch(/tiger/i);
+
+  // includes option to restart
+  expect(response.body.options).toMatchObject({ restart: "/" });
+});
+
+test("GET /quest/start/hard responds with an hard quest", async () => {
+  const response = await supertest(app).get("/quest/start/hard");
+
+  // there is _some_ location
+  expect(response.body.location).toBeDefined();
+
+  // there is _some_ speaker
+  expect(response.body.speech.speaker.name).toBeDefined();
+
+  // hard quest
+  expect(response.body.speech.text).toMatch(/mammoth/i);
+  expect(response.body.speech.text).toMatch(/hard/i);
+
+  // includes option to restart
+  expect(response.body.options).toMatchObject({ restart: "/" });
+});
