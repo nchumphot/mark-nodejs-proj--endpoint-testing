@@ -10,8 +10,7 @@ test("GET / responds with a welcome message from our mysterious robed figure", a
     location: CAVE_EXTERIOR,
     speech: {
       speaker: MYSTERIOUS_ROBED_FIGURE,
-      text:
-        "Welcome, young adventurer, to the ENDPOINT ADVENTURE. Are you ready for this quest?",
+      text: "Welcome, young adventurer, to the ENDPOINT ADVENTURE. Are you ready for this quest?",
     },
     options: {
       yes: "/quest/accept",
@@ -56,7 +55,7 @@ test("GET /quest/decline responds with an apocalyptic message", async () => {
   expect(response.body.options).toStrictEqual({ restart: "/" });
 });
 
-test.skip("GET /quest/start/impossible responds with instant 'death'", async () => {
+test("GET /quest/start/impossible responds with instant 'death'", async () => {
   const response = await supertest(app).get("/quest/start/impossible");
 
   // there is _some_ location
@@ -72,4 +71,20 @@ test.skip("GET /quest/start/impossible responds with instant 'death'", async () 
 
   // includes option to restart
   expect(response.body.options).toMatchObject({ restart: "/" });
+});
+
+test("GET /help responds with a location, a speech and option to restart", async () => {
+  const response = await supertest(app).get("/help");
+
+  // there is _some_ location
+  expect(response.body.location).toBeDefined();
+
+  // there is _some_ speaker
+  expect(response.body.speech.speaker.name).toBeDefined();
+
+  // there is _some_ text
+  expect(typeof response.body.speech.text).toBe("string");
+
+  // there is an option to restart
+  expect(response.body.options).toMatchObject({ backToStart: "/" });
 });
